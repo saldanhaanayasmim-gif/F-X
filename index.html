@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FØX - Bem-vindo ao mundo FØX</title>
+    <style>
+        /* Reset e Variáveis de Cores (Padrão FØX) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-color: #0b0c16;
+            --card-bg: rgba(19, 20, 36, 0.6);
+            --text-color: #ffffff;
+            --text-muted: #64748b;
+            --primary-gradient: linear-gradient(135deg, #a855f7, #ec4899);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: absolute;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-box {
+            background: var(--primary-gradient);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .control-icon {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a.active {
+            color: #ec4899;
+            font-weight: 700;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box {
+            background-color: rgba(22, 25, 43, 0.7);
+            border: 1px solid rgba(31, 34, 63, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            width: 200px;
+        }
+
+        .btn-entrar {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 8px 22px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 120px 40px 40px 40px;
+            background: radial-gradient(circle at center, rgba(11, 12, 22, 0.2) 0%, rgb(11, 12, 22, 1) 90%), 
+                        url('Captura de tela 2026-06-12 103130.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .hero-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .games-count-badge {
+            background-color: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 25px;
+            backdrop-filter: blur(5px);
+        }
+
+        .games-count-badge strong {
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Ajuste do Slogan conforme as imagens originais */
+        .hero-slogan {
+            color: #94a3b8;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 600px;
+            letter-spacing: 0.3px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- Grid de Status/Métricas --- */
+        .status-grid {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-icon {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: #7b7d93;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <div class="logo-box">
+                <svg viewBox="0 0 640 512" class="control-icon">
+                    <path d="M192 64C86 64 0 150 0 256S86 448 192 448H448c106 0 192-86 192-192S554 64 448 64H192zm192 160a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm64 64a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-144 32a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm80 64a32 32 0 1 1 0-64 32 32 0 1 1 0 64zM176 192c8.8 0 16 7.2 16 16v48h48c8.8 0 16 7.2 16 16s-7.2 16-16 16H192v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V288H112c-8.8 0-16-7.2-16-16s7.2-16 16-16h48V208c0-8.8 7.2-16 16-16z"/>
+                </svg>
+            </div>
+            <span class="logo-text">FØX</span>
+        </div>
+        <nav class="nav-links">
+           <a href="index.html">Início</a>
+<a href="jogos.html">Jogos</a>
+<a href="ranking.html">Ranking</a>
+<a href="noticias.html">Notícias</a>
+<a href="comunidade.html">Comunidade</a>
+        </nav>
+        <div class="nav-right">
+            <input type="text" class="search-box" placeholder="Buscar jogos...">
+           <button class="btn-entrar" id="openLogin">
+    Entrar
+</button>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-container">
+            
+            <div class="hero-content">
+                <div class="games-count-badge">
+                    ⚡ Mais de <strong>70 jogos</strong> disponíveis
+                </div>
+                
+                <h1>Bem-vindo ao<br>mundo <span>FØX</span></h1>
+                
+                <p class="hero-slogan">
+                    Explore todos os títulos disponíveis na plataforma FØX
+                </p>
+                
+               <div class="hero-buttons">
+    <a href="jogos.html" class="btn-primary">
+        Explorar Jogos
+    </a>
+
+    <a href="comunidade.html" class="btn-secondary">
+        Ver Comunidade
+    </a>
+                </div>
+
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div class="status-icon" style="color: #3b82f6;">⚡</div>
+                        <div class="status-value">70+</div>
+                        <div class="status-label">Jogos</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-icon" style="color: #a855f7;">👥</div>
+                        <div class="status-value">120K</div>
+                        <div class="status-label">Jogadores</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-icon" style="color: #ec4899;">⭐</div>
+                        <div class="status-value">4.9</div>
+                        <div class="status-label">Avaliação</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+<script src="script.js"></script>
+<div id="loginModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-modal">&times;</span>
+
+<script>
+// Campo de busca
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        const jogo = searchInput.value.trim();
+
+        if (jogo !== "") {
+            alert("Buscando: " + jogo);
+
+            // Exemplo: redirecionar para pesquisa
+            // window.location.href = "catalogo.html?busca=" + encodeURIComponent(jogo);
+        } else {
+            alert("Digite o nome de um jogo!");
+        }
+    }
+});
+
+// Botão Entrar
+const loginButton = document.getElementById("loginButton");
+
+loginButton.addEventListener("click", function() {
+    window.location.href = "login.html";
+});
+</script>
+</body>
+</html>

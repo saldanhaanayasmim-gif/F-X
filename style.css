@@ -1,0 +1,994 @@
+/* ===================================================== */
+/* style.css */
+/* COMPLETO + ALTERAÇÕES */
+/* ===================================================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter', sans-serif;
+  background:#050816;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* BACKGROUND */
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at top, rgba(195,0,255,0.25), transparent 35%),
+    radial-gradient(circle at right, rgba(0,132,255,0.15), transparent 25%),
+    #050816;
+  z-index:-1;
+}
+
+/* NAVBAR */
+
+.navbar{
+  width:100%;
+  height:80px;
+  padding:0 60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:fixed;
+  top:0;
+  z-index:100;
+  background:rgba(5,8,22,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:24px;
+  font-weight:800;
+}
+
+.logo-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.nav-menu{
+  display:flex;
+  gap:35px;
+}
+
+.nav-menu a{
+  text-decoration:none;
+  color:#c7c7d8;
+  transition:0.3s;
+  position:relative;
+  font-weight:500;
+}
+
+.nav-menu a:hover{
+  color:white;
+}
+
+.active-link{
+  color:white !important;
+}
+
+.active-link::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:-8px;
+  width:100%;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.search-box{
+  width:220px;
+  height:42px;
+  border-radius:14px;
+  background:#12182c;
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+  gap:10px;
+}
+
+.search-box i{
+  color:#8f95b2;
+}
+
+.search-box input{
+  width:100%;
+  background:none;
+  border:none;
+  outline:none;
+  color:white;
+}
+
+.login-btn{
+  padding:12px 22px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* HERO */
+
+.hero{
+  min-height:100vh;
+  padding-top:140px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:url(https://pt.wallpapers.com/jogos-roxos) center/cover;
+  opacity:0.15;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom,
+  rgba(5,8,22,0.2),
+  rgba(5,8,22,0.95));
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:850px;
+}
+
+.small-badge{
+  display:inline-flex;
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.08);
+  margin-bottom:25px;
+}
+
+.hero h1{
+  font-size:72px;
+  font-weight:800;
+  line-height:1.1;
+}
+
+.hero h1 span{
+  background:linear-gradient(135deg,#9a4dff,#ff59d6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+  margin-top:22px;
+  font-size:18px;
+  line-height:1.7;
+  color:#b8b8c7;
+}
+
+.hero-buttons{
+  margin-top:35px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+}
+
+.primary-btn,
+.secondary-btn{
+  padding:16px 28px;
+  border-radius:16px;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.primary-btn{
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+  color:white;
+  box-shadow:0 0 25px rgba(124,60,255,0.35);
+}
+
+.secondary-btn{
+  border:1px solid rgba(255,255,255,0.15);
+  color:white;
+  background:rgba(255,255,255,0.05);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+  transform:translateY(-3px);
+}
+
+/* STATS */
+
+.stats{
+  margin-top:50px;
+  display:flex;
+  justify-content:center;
+  gap:25px;
+}
+
+.stat-box{
+  width:130px;
+  padding:22px;
+  border-radius:22px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
+}
+
+.stat-box h3{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.hero-character{
+  position:absolute;
+  right:8%;
+  bottom:10%;
+}
+
+.hero-character img{
+  width:260px;
+}
+
+/* CATALOG */
+
+.catalog{
+  padding:140px 60px 60px;
+}
+
+.catalog-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:35px;
+}
+
+.catalog-top h2{
+  font-size:32px;
+}
+
+.catalog-top p{
+  margin-top:8px;
+  color:#9ea0b8;
+}
+
+.catalog-top a{
+  color:#b268ff;
+  text-decoration:none;
+  font-weight:600;
+}
+
+/* ===================================================== */
+/* CATEGORIES */
+/* ===================================================== */
+
+.categories{
+  display:flex;
+
+  gap:14px;
+
+  margin-bottom:40px;
+
+  overflow-x:auto;
+
+  padding-bottom:12px;
+
+  padding-top:10px;
+}
+
+/* SCROLL */
+
+.categories::-webkit-scrollbar{
+  height:6px;
+}
+
+.categories::-webkit-scrollbar-thumb{
+  background:#7c3cff;
+  border-radius:999px;
+}
+
+/* BOTÕES */
+
+.categories button{
+
+  padding:14px 22px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:#151c33;
+
+  color:#ffffff;
+
+  font-size:14px;
+
+  font-weight:700;
+
+  letter-spacing:0.5px;
+
+  cursor:pointer;
+
+  transition:0.3s ease;
+
+  white-space:nowrap;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 0 10px rgba(0,0,0,0.25);
+}
+
+/* HOVER */
+
+.categories button:hover{
+
+  transform:translateY(-3px);
+
+  background:#202b4b;
+
+  box-shadow:
+    0 0 18px rgba(124,60,255,0.35);
+}
+
+/* ACTIVE */
+
+.categories .active{
+
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+
+  color:white;
+
+  box-shadow:
+    0 0 25px rgba(162,0,255,0.45);
+}
+
+/* GRID */
+
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:28px;
+}
+
+/* CARD */
+
+.game-card{
+  background:#0d1222;
+  border-radius:24px;
+  overflow:hidden;
+  transition:0.3s;
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+.game-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 0 25px rgba(124,60,255,0.20);
+}
+
+.card-image{
+  position:relative;
+  height:220px;
+}
+
+.card-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.badge{
+  position:absolute;
+  top:15px;
+  left:15px;
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.card-content{
+  padding:22px;
+}
+
+.game-info{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.game-info h3{
+  font-size:20px;
+}
+
+.rating{
+  color:#ffc857;
+  font-weight:700;
+}
+
+.game-meta{
+  margin-top:18px;
+  display:flex;
+  justify-content:space-between;
+  color:#9ea0b8;
+}
+
+.genre{
+  background:#2a102a;
+  color:#ff5ad6;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:13px;
+}
+
+.play-btn{
+  width:100%;
+  height:48px;
+  margin-top:22px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+  color:white;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  transition:0.3s;
+}
+
+.play-btn:hover{
+  transform:scale(1.02);
+}
+
+/* BOTTOM BUTTON */
+
+.bottom-btn{
+  margin-top:45px;
+  display:flex;
+  justify-content:center;
+}
+
+.bottom-btn a{
+  padding:16px 28px;
+  border-radius:16px;
+  background:#12182c;
+  color:white;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.bottom-btn a:hover{
+  background:#1c2440;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+  .nav-menu{
+    display:none;
+  }
+
+  .hero h1{
+    font-size:56px;
+  }
+
+  .hero-character{
+    display:none;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .navbar{
+    padding:0 20px;
+  }
+
+  .catalog{
+    padding:130px 20px 40px;
+  }
+
+  .hero{
+    padding:140px 20px 60px;
+  }
+
+  .hero h1{
+    font-size:42px;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .stats{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .search-box{
+    display:none;
+  }
+
+}
+/* ===================================================== */
+/* RANKING */
+/* COLE NO FINAL DO style.css */
+/* ===================================================== */
+
+.ranking-container{
+
+  display:grid;
+
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+  gap:28px;
+}
+
+.ranking-card{
+
+  background:#0d1222;
+
+  border-radius:24px;
+
+  padding:30px 25px;
+
+  text-align:center;
+
+  position:relative;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,255,255,0.05);
+
+  transition:0.3s;
+}
+
+.ranking-card:hover{
+
+  transform:translateY(-8px);
+
+  box-shadow:
+    0 0 30px rgba(124,60,255,0.25);
+}
+
+.rank-number{
+
+  position:absolute;
+
+  top:18px;
+  right:18px;
+
+  width:45px;
+  height:45px;
+
+  border-radius:50%;
+
+  background:linear-gradient(135deg,#7c3cff,#ff4fd8);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:800;
+}
+
+.ranking-card img{
+
+  width:110px;
+  height:110px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+
+  margin-bottom:20px;
+
+  border:4px solid rgba(124,60,255,0.5);
+}
+
+.ranking-card h2{
+
+  font-size:24px;
+
+  margin-bottom:10px;
+}
+
+.rank-game{
+
+  display:inline-block;
+
+  padding:8px 16px;
+
+  border-radius:999px;
+
+  background:#2a102a;
+
+  color:#ff5ad6;
+
+  font-size:14px;
+
+  margin-bottom:18px;
+}
+
+.ranking-card p{
+
+  font-size:18px;
+
+  color:#bfc4e0;
+
+  font-weight:600;
+}
+
+/* TOP 1 */
+
+.top1{
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,215,0,0.12),
+      #0d1222
+    );
+
+  border:1px solid rgba(255,215,0,0.3);
+}
+/* Container flexível interno para separar o conteúdo do mascote */
+.hero-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+}
+
+.hero-content {
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* Alinhamento horizontal das métricas embaixo dos botões */
+.status-grid {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.status-item {
+  text-align: center;
+}
+
+.status-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.status-label {
+  font-size: 12px;
+  color: #7b7d93;
+}
+
+/* Círculo luminoso de neon para o Mascote */
+.mascot-container {
+  position: absolute;
+  right: -40px;
+  bottom: -10px;
+}
+
+.mascot-ring {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 4px solid #ec4899;
+  box-shadow: 0 0 20px #ec4899, inset 0 0 20px #ec4899;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(11, 12, 22, 0.7);
+}
+
+.mascot-art {
+  font-size: 90px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Quadrado arredondado com fundo gradiente */
+.logo-box {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  padding: 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+/* Cor do controle dentro do quadrado */
+.logo-box i {
+  color: #0b0c16; 
+  font-size: 18px;
+}
+
+/* Nome FØX agora em branco, limpo e imponente */
+.logo-text {
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* O quadrado gradiente de fundo */
+.logo-box {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px; /* Cantos arredondados iguais aos da imagem */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* O DESENHO DO VIDEOGAME NO MEIO */
+.logo-box i {
+  color: #ffffff; /* Cor branca para o desenho do controle aparecer nitidamente */
+  font-size: 22px; /* Tamanho ideal para centralizar e preencher o espaço */
+  display: block;
+}
+
+/* Texto FØX ao lado */
+.logo-text {
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff; /* Texto branco conforme o padrão novo */
+  letter-spacing: 0.5px;
+}/* NAVBAR PRINCIPAL */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background-color: #0b0c16;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Quadrado com o preenchimento gradiente roxo/rosa */
+.logo-box {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+/* Configuração do desenho do controle em SVG */
+.control-icon {
+  width: 22px;
+  height: 22px;
+  fill: #ffffff; /* Garante que o controle interno fique totalmente branco */
+}
+
+/* Texto FØX ao lado da logo */
+.logo-text {
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* Links do menu central */
+.nav-menu {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: #64748b; /* Tom cinza sutil para links não selecionados */
+  font-weight: 600;
+  font-size: 15px;
+  transition: color 0.2s ease;
+}
+
+.nav-menu a:hover {
+  color: #ffffff;
+}
+
+/* Link ativo correspondente à página atual (Muda apenas a cor do texto para rosa/roxo) */
+.nav-menu a.active-link {
+  color: #ec4899;
+  font-weight: 700;
+}
+.btn-primary,
+.btn-secondary{
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+.btn-primary,
+.btn-secondary{
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* ===================================================== */
+/* NOVO FUNDO HERO GAMER ROXO */
+/* COLE NO FINAL DO style.css */
+/* ===================================================== */
+
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      rgba(5,8,22,0.35),
+      rgba(5,8,22,0.60)
+    ),
+    url('https://wallpapers.com/images/hd/purple-gaming-r35ussvx0m1ebt5o.jpg');
+
+  background-position:center center;
+  background-size:cover;
+  background-repeat:no-repeat;
+
+  opacity:1;
+  z-index:0;
+}
+
+.hero-content,
+.hero-wrapper,
+.overlay{
+  position:relative;
+  z-index:2;
+}
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.modal-content{
+    width:400px;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(19,20,36,.95);
+    border:1px solid rgba(255,255,255,.1);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.close-modal{
+    cursor:pointer;
+    align-self:flex-end;
+    font-size:24px;
+}
+
+.social-btn{
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.google{
+    background:white;
+    color:black;
+}
+
+.github{
+    background:#24292f;
+    color:white;
+}
+
+.modal-content input{
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #333;
+    background:#0b0c16;
+    color:white;
+}
+
+.fox-login{
+    background:linear-gradient(
+        135deg,
+        #a855f7,
+        #ec4899
+    );
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.fox-register{
+    background:transparent;
+    border:1px solid #555;
+    color:white;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.divider{
+    text-align:center;
+    color:#94a3b8;
+}
+
+#resetPassword{
+    text-align:center;
+    color:#a855f7;
+    text-decoration:none;
+}

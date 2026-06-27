@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FØX - Catálogo de Jogos</title>
+    <style>
+        /* Reset e Variáveis de Cores (Idênticas à Interface FØX) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-color: #0b0c16;
+            --card-bg: #141526;
+            --input-bg: #191b30;
+            --text-color: #ffffff;
+            --text-muted: #7b7d93;
+            --primary-gradient: linear-gradient(90deg, #a855f7, #ec4899);
+            --border-color: #1f223f;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 24px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            background: var(--primary-gradient);
+            padding: 6px;
+            border-radius: 8px;
+            -webkit-text-fill-color: white;
+            font-size: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: #ec4899;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-nav {
+            background-color: #16192b;
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .btn-entrar {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 8px 22px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* --- Conteúdo Principal --- */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            padding: 20px 40px 40px 40px;
+        }
+
+        .title-section {
+            margin-bottom: 25px;
+        }
+
+        .title-section h1 {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .title-section h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-section p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* --- Barra de Busca do Catálogo --- */
+        .catalog-search-container {
+            margin-bottom: 25px;
+            max-width: 400px;
+        }
+
+        .catalog-search {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px 18px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .catalog-search::placeholder {
+            color: #4b4e6d;
+        }
+
+        /* --- Categorias (Tags Superiores) --- */
+        .categories-list {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 35px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .category-item {
+            background-color: #1a1c33;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .category-item:hover {
+            color: white;
+            background-color: #232644;
+        }
+
+        .category-item.active {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            color: white;
+        }
+
+        /* --- Grid de Jogos (5 colunas igual à imagem) --- */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 1200px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 992px) { .games-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .games-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .game-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: #a855f7;
+        }
+
+        /* Capa/Banner do Jogo */
+        .game-cover-wrap {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+            background-color: #1a1b30;
+        }
+
+        .game-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Tag Em Alta */
+        .badge-trending {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        /* Detalhes do Jogo (Textos) */
+        .game-details {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .game-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 5px;
+        }
+
+        .game-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 80%;
+        }
+
+        .game-rating {
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .game-rating span {
+            color: #eab308; /* Estrela Amarela */
+        }
+
+        /* Meta (Gênero e Players) */
+        .game-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            margin-top: 2px;
+            margin-bottom: 8px;
+        }
+
+        .tag-genre {
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Cores variadas para as tags de gênero da imagem */
+        .genre-fps { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .genre-br { background-color: rgba(168, 85, 247, 0.15); color: #a855f7; }
+        .genre-rpc { background-color: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+
+        .player-count {
+            color: var(--text-muted);
+        }
+
+        /* Botão Jogar Agora */
+        .btn-play-now {
+            width: 100%;
+            background: var(--primary-gradient);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-play-now:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon">🎮</span> FØX
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Início</a>
+<a href="jogos.html">Jogos</a>
+<a href="ranking.html">Ranking</a>
+<a href="noticias.html">Notícias</a>
+<a href="comunidade.html">Comunidade</a>
+        </nav>
+        <div class="nav-right">
+            <input type="text" class="search-nav" placeholder="Buscar jogos...">
+            <button class="btn-entrar">Entrar</button>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="title-section">
+            <h1>Catálogo de <span>Jogos</span></h1>
+            <p>Explore todos os títulos disponíveis na plataforma FØX</p>
+        </section>
+
+        <div class="catalog-search-container">
+            <input type="text" class="catalog-search" placeholder="Buscar jogo...">
+        </div>
+
+       <div class="categories-list">
+    <div class="category-item active" data-filter="all">Todos</div>
+    <div class="category-item" data-filter="acao">Ação</div>
+    <div class="category-item" data-filter="rpg">RPG</div>
+    <div class="category-item" data-filter="aventura">Aventura</div>
+    <div class="category-item" data-filter="fps">FPS</div>
+    <div class="category-item" data-filter="battle-royale">Battle Royale</div>
+    <div class="category-item" data-filter="estrategia">Estratégia</div>
+    <div class="category-item" data-filter="esporte">Esporte</div>
+    <div class="category-item" data-filter="luta">Luta</div>
+    <div class="category-item" data-filter="moba">MOBA</div>
+    <div class="category-item" data-filter="plataforma">Plataforma</div>
+    <div class="category-item" data-filter="terror">Terror</div>
+    <div class="category-item" data-filter="casual">Casual</div>
+</div>
+        <section class="games-grid">
+            
+            <div class="game-card" data-category="fps">
+                <div class="game-cover-wrap">
+                    <span class="badge-trending">Em Alta</span>
+                    <img class="game-cover" src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="Counter-Strike 2">
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Counter-Strike 2</span>
+                        <span class="game-rating"><span>★</span> 9.3</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-fps">FPS</span>
+                        <span class="player-count">👥 12.4M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+
+           <div class="game-card" data-category="fps">
+                <div class="game-cover-wrap">
+                    <span class="badge-trending">Em Alta</span>
+                    
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Valorant</span>
+                        <span class="game-rating"><span>★</span> 9.1</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-fps">FPS</span>
+                        <span class="player-count">👥 18.2M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+
+            <div class="game-card" data-category="fps">
+                <div class="game-cover-wrap">
+                    <span class="badge-trending">Em Alta</span>
+                    <img class="game-cover" src="all-of-duty-warzone-capa-warzone.webp" alt="Warzone">
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Call of Duty: Warzone</span>
+                        <span class="game-rating"><span>★</span> 8.7</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-fps">FPS</span>
+                        <span class="player-count">👥 22.5M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+
+           <div class="game-card" data-category="fps">
+                <div class="game-cover-wrap">
+                    <img class="game-cover" src="1de121dcc6ffee11872e4c2bfa896b891c13c9b9bf52dd0847c5c178797277e0-Overwatch.avif" alt="Overwatch 2">
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Overwatch 2</span>
+                        <span class="game-rating"><span>★</span> 8.4</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-fps">FPS</span>
+                        <span class="player-count">👥 10.1M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+<div class="game-card" data-category="fps">
+                <div class="game-cover-wrap">
+                    <img class="game-cover" src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=400" alt="R6 Siege">
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Rainbow Six Siege</span>
+                        <span class="game-rating"><span>★</span> 8.8</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-fps">FPS</span>
+                        <span class="player-count">👥 7.3M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+
+         <div class="game-card" data-category="battle-royale">
+                <div class="game-cover-wrap">
+                    <img class="game-cover" src="https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?q=80&w=400" alt="Apex Legends">
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Apex Legends</span>
+                        <span class="game-rating"><span>★</span> 8.9</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-fps">FPS</span>
+                        <span class="player-count">👥 15.8M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+
+           <div class="game-card" data-category="rpg">
+                <div class="game-cover-wrap">
+                    <span class="badge-trending">Em Alta</span>
+                    <img class="game-cover" src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=400" alt="Elden Ring">
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Elden Ring</span>
+                        <span class="game-rating"><span>★</span> 9.8</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-rpc">RPG</span>
+                        <span class="player-count">👥 8.9M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+
+          <div class="game-card" data-category="battle-royale">
+                <div class="game-cover-wrap">
+                    <span class="badge-trending">Em Alta</span>
+                    <img class="game-cover" src="https://cdn2.unrealengine.com/fortnite-chapter-5-season-3-keyart-1920x1080-1920x1080.jpg" alt="Fortnite">
+                </div>
+                <div class="game-details">
+                    <div class="game-header-row">
+                        <span class="game-title">Fortnite</span>
+                        <span class="game-rating"><span>★</span> 8.8</span>
+                    </div>
+                    <div class="game-meta-row">
+                        <span class="tag-genre genre-br">Battle Royale</span>
+                        <span class="player-count">👥 35.8M</span>
+                    </div>
+                    <button class="btn-play-now">▶ Jogar Agora</button>
+                </div>
+            </div>
+<div class="game-card" data-category="aventura">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://www.minecraft.net/content/dam/games/minecraft/key-art/MC_The-Wild-Update-KeyArt.jpg" alt="Minecraft">
+    </div>
+
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">Minecraft</span>
+            <span class="game-rating"><span>★</span> 9.5</span>
+        </div>
+
+        <div class="game-meta-row">
+            <span class="tag-genre genre-rpc">Aventura</span>
+            <span class="player-count">👥 25.0M</span>
+        </div>
+
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="moba">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt4f8c7d1f8b5e3b6e/lol-key-art.jpg" alt="League of Legends">
+    </div>
+
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">League of Legends</span>
+            <span class="game-rating"><span>★</span> 9.2</span>
+        </div>
+
+        <div class="game-meta-row">
+            <span class="tag-genre genre-br">MOBA</span>
+            <span class="player-count">👥 180M</span>
+        </div>
+
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="acao">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://www.rockstargames.com/images/shareimg.jpg" alt="GTA V">
+    </div>
+
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">GTA V</span>
+            <span class="game-rating"><span>★</span> 9.7</span>
+        </div>
+
+        <div class="game-meta-row">
+            <span class="tag-genre genre-fps">Ação</span>
+            <span class="player-count">👥 120M</span>
+        </div>
+
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="casual">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400" alt="Roblox">
+    </div>
+
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">Roblox</span>
+            <span class="game-rating"><span>★</span> 8.9</span>
+        </div>
+
+        <div class="game-meta-row">
+            <span class="tag-genre genre-br">Casual</span>
+            <span class="player-count">👥 90M</span>
+        </div>
+
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="aventura">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=400" alt="Red Dead Redemption 2">
+    </div>
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">Red Dead Redemption 2</span>
+            <span class="game-rating"><span>★</span> 9.8</span>
+        </div>
+        <div class="game-meta-row">
+            <span class="tag-genre genre-rpc">Aventura</span>
+            <span class="player-count">👥 55M</span>
+        </div>
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="rpg">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=400" alt="The Witcher 3">
+    </div>
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">The Witcher 3</span>
+            <span class="game-rating"><span>★</span> 9.7</span>
+        </div>
+        <div class="game-meta-row">
+            <span class="tag-genre genre-rpc">RPG</span>
+            <span class="player-count">👥 30M</span>
+        </div>
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="esporte">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=400" alt="EA Sports FC 26">
+    </div>
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">EA Sports FC 26</span>
+            <span class="game-rating"><span>★</span> 8.9</span>
+        </div>
+        <div class="game-meta-row">
+            <span class="tag-genre genre-br">Esporte</span>
+            <span class="player-count">👥 45M</span>
+        </div>
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="luta">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=400" alt="Mortal Kombat 1">
+    </div>
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">Mortal Kombat 1</span>
+            <span class="game-rating"><span>★</span> 9.0</span>
+        </div>
+        <div class="game-meta-row">
+            <span class="tag-genre genre-fps">Luta</span>
+            <span class="player-count">👥 12M</span>
+        </div>
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="terror">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=400" alt="Resident Evil 4">
+    </div>
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">Resident Evil 4</span>
+            <span class="game-rating"><span>★</span> 9.4</span>
+        </div>
+        <div class="game-meta-row">
+            <span class="tag-genre genre-rpc">Terror</span>
+            <span class="player-count">👥 18M</span>
+        </div>
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="plataforma">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400" alt="Hollow Knight">
+    </div>
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">Hollow Knight</span>
+            <span class="game-rating"><span>★</span> 9.6</span>
+        </div>
+        <div class="game-meta-row">
+            <span class="tag-genre genre-br">Plataforma</span>
+            <span class="player-count">👥 9M</span>
+        </div>
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+<div class="game-card" data-category="estrategia">
+    <div class="game-cover-wrap">
+        <img class="game-cover" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400" alt="Clash Royale">
+    </div>
+    <div class="game-details">
+        <div class="game-header-row">
+            <span class="game-title">Clash Royale</span>
+            <span class="game-rating"><span>★</span> 8.7</span>
+        </div>
+        <div class="game-meta-row">
+            <span class="tag-genre genre-rpc">Estratégia</span>
+            <span class="player-count">👥 20M</span>
+        </div>
+        <button class="btn-play-now">▶ Jogar Agora</button>
+    </div>
+</div>
+
+        </section>
+    </main>
+<script>
+
+const categorias = document.querySelectorAll(".category-item");
+const jogos = document.querySelectorAll(".game-card");
+
+categorias.forEach(categoria => {
+
+    categoria.addEventListener("click", () => {
+
+        categorias.forEach(item =>
+            item.classList.remove("active")
+        );
+
+        categoria.classList.add("active");
+
+        const filtro = categoria.dataset.filter;
+
+        jogos.forEach(jogo => {
+
+            if (
+                filtro === "all" ||
+                jogo.dataset.category === filtro
+            ) {
+                jogo.style.display = "flex";
+            } else {
+                jogo.style.display = "none";
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+</body>
+</html>

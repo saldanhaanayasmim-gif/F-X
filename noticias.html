@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FØX - Notícias</title>
+    <style>
+        /* Reset e Variáveis de Cores (Padrão FØX) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-color: #0b0c16;
+            --card-bg: #131424;
+            --text-color: #ffffff;
+            --text-muted: #7b7d93;
+            --primary-gradient: linear-gradient(90deg, #a855f7, #ec4899);
+            --border-color: #1f223f;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 24px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            background: var(--primary-gradient);
+            padding: 6px;
+            border-radius: 8px;
+            -webkit-text-fill-color: white;
+            font-size: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: #ec4899;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box {
+            background-color: #16192b;
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .btn-entrar {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* --- Conteúdo Principal --- */
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px 20px;
+        }
+
+        .title-section {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .title-icon {
+            background-color: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .title-section h1 {
+            font-size: 28px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .title-section p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 3px;
+        }
+
+        /* --- Grid de Destaques (Top) --- */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .featured-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-3px);
+            border-color: #a855f7;
+        }
+
+        /* Simulação das imagens de fundo com degradê escuro por cima */
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.25;
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+
+        .featured-card:hover::before {
+            opacity: 0.35;
+        }
+
+        .card-1::before { background-image: url('https://picsum.photos/600/400?random=1'); }
+        .card-2::before { background-image: url('https://picsum.photos/600/400?random=2'); }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Tags de Categorias --- */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .tag-plataforma { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .tag-torneios { background-color: rgba(236, 72, 153, 0.2); color: #f472b6; }
+        .tag-atualizacoes { background-color: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        .tag-recordes { background-color: rgba(45, 212, 191, 0.2); color: #2dd4bf; }
+        .tag-guias { background-color: rgba(251, 146, 60, 0.2); color: #fb923c; }
+        .tag-parceiros { background-color: rgba(244, 63, 94, 0.2); color: #fb7185; }
+
+        .featured-card h2 {
+            font-size: 20px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .featured-card p {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            max-width: 90%;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 15px;
+            color: var(--text-muted);
+            font-size: 12px;
+            align-items: center;
+        }
+
+        .arrow-icon {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            color: var(--text-muted);
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        /* --- Lista Vertical de Notícias --- */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .news-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .news-item:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .news-thumb {
+            width: 80px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #1a1b35;
+        }
+
+        .news-item-content {
+            flex-grow: 1;
+        }
+
+        .news-item-content h3 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            margin-top: 5px;
+        }
+
+        .news-item-content p {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 750px;
+        }
+
+        .news-item .arrow-icon {
+            position: static;
+            margin-left: auto;
+            color: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon">🎮</span> FØX
+        </div>
+        <nav class="nav-links">
+ <a href="index.html">Início</a>
+<a href="jogos.html">Jogos</a>
+<a href="ranking.html">Ranking</a>
+<a href="noticias.html">Notícias</a>
+<a href="comunidade.html">Comunidade</a>
+        </nav>
+        <div class="nav-right">
+            <input type="text" class="search-box" placeholder="Buscar jogos...">
+            <button class="btn-entrar">Entrar</button>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="title-section">
+            <div class="title-icon">🔥</div>
+            <div>
+                <h1>Notícias</h1>
+                <p>Fique por dentro do mundo FØX</p>
+            </div>
+        </section>
+
+        <section class="featured-grid">
+            
+            <div class="featured-card card-1">
+                <span class="arrow-icon">➔</span>
+                <div class="card-content">
+                    <span class="tag tag-plataforma">Plataforma</span>
+                    <h2>FØX lança atualização massiva com 50 novos títulos</h2>
+                    <p>A plataforma FØX acaba de anunciar a maior atualização da sua história, adicionando 50 novos jogos ao catálogo incluindo grandes exclusivos.</p>
+                    <div class="meta-info">
+                        <span>👤 Equipe FØX</span>
+                        <span>📅 8 Mai 2026</span>
+                        <span>⏱️ 3 min</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="featured-card card-2">
+                <span class="arrow-icon">➔</span>
+                <div class="card-content">
+                    <span class="tag tag-torneios">Torneios</span>
+                    <h2>Torneio Nacional FØX 2026: Inscrições abertas</h2>
+                    <p>O maior torneio de games do Brasil está de volta. Inscreva-se agora e concorra a um prêmio de R$ 500.000.</p>
+                    <div class="meta-info">
+                        <span>👤 Redação FØX</span>
+                        <span>📅 7 Mai 2026</span>
+                        <span>⏱️ 5 min</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="news-list">
+
+            <div class="news-item">
+                <img class="news-thumb" src="https://picsum.photos/100/80?random=3" alt="Thumb">
+                <div class="news-item-content">
+                    <span class="tag tag-atualizacoes">Atualizações</span>
+                    <h3>Eclipse Reborn recebe patch com novo conteúdo</h3>
+                    <p>O RPG mais popular da plataforma ganhou nova expansão com 10 horas de conteúdo adicional e personagens inéditos.</p>
+                    <div class="meta-info">
+                        <span>👤 Pedro Santos</span>
+                        <span>📅 6 Mai 2026</span>
+                        <span>⏱️ 4 min</span>
+                    </div>
+                </div>
+                <span class="arrow-icon">➔</span>
+            </div>
+
+            <div class="news-item">
+                <img class="news-thumb" src="https://picsum.photos/100/80?random=4" alt="Thumb">
+                <div class="news-item-content">
+                    <span class="tag tag-recordes">Recordes</span>
+                    <h3>NeonStrike bate recorde de jogadores simultâneos</h3>
+                    <p>O FPS exclusivo da FØX alcançou 1 milhão de jogadores online ao mesmo tempo, quebrando o recorde da plataforma.</p>
+                    <div class="meta-info">
+                        <span>👤 Juliana Costa</span>
+                        <span>📅 5 Mai 2026</span>
+                        <span>⏱️ 2 min</span>
+                    </div>
+                </div>
+                <span class="arrow-icon">➔</span>
+            </div>
+
+            <div class="news-item">
+                <img class="news-thumb" src="https://picsum.photos/100/80?random=5" alt="Thumb">
+                <div class="news-item-content">
+                    <span class="tag tag-guias">Guias</span>
+                    <h3>Como dominar Kingdoms Eternal: guia completo</h3>
+                    <p>Estratégias avançadas, dicas de build e segredos do mapa que vão te levar ao topo do ranking de estratégia.</p>
+                    <div class="meta-info">
+                        <span>👤 CyberWolf</span>
+                        <span>📅 4 Mai 2026</span>
+                        <span>⏱️ 8 min</span>
+                    </div>
+                </div>
+                <span class="arrow-icon">➔</span>
+            </div>
+
+            <div class="news-item">
+                <img class="news-thumb" src="https://picsum.photos/100/80?random=6" alt="Thumb">
+                <div class="news-item-content">
+                    <span class="tag tag-parceiros">Parceiros</span>
+                    <h3>FØX anuncia parceria com grandes publishers</h3>
+                    <p>Novos acordos vão trazer títulos AAA à plataforma nos próximos meses. Confira a lista de jogos confirmados.</p>
+                    <div class="meta-info">
+                        <span>👤 Equipe FØX</span>
+                        <span>📅 3 Mai 2026</span>
+                        <span>⏱️ 3 min</span>
+                    </div>
+                </div>
+                <span class="arrow-icon">➔</span>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
